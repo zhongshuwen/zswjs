@@ -1,0 +1,18 @@
+{
+  "tsconfig": "tsconfig.json",
+  "ignoreCompilerErrors": true,
+  "hideGenerator": true,
+  "includeDeclarations": false,
+  "excludeExternals": true,
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "externalPattern": "**/node_modules/**",
+  "excludeNotExported": true,
+  "exclude": ["**/index*","**/*.test.ts","**/*.test.js", "**/node_modules/**"],
+  "mode": "modules",
+  "readme": "README.md",
+  "module": "commonjs",
+  "theme": "minimal",
+  "target": "ES5",
+  "out": "./reference"
+}
