@@ -312,7 +312,7 @@ export const stringToPublicKey = (s: string): Key => {
     if (typeof s !== 'string') {
         throw new Error('expected string containing public key');
     }
-    if (s.substr(0, 3) === 'ZSW') {
+    if (s.substr(0, 3) === 'EOS') {
         const whole = base58ToBinary(publicKeyDataSize + 4, s.substr(3));
         const key = { type: KeyType.k1, data: new Uint8Array(publicKeyDataSize) };
         for (let i = 0; i < publicKeyDataSize; ++i) {
@@ -338,7 +338,7 @@ export const stringToPublicKey = (s: string): Key => {
 /** Convert public `key` to legacy string (base-58) form */
 export const publicKeyToLegacyString = (key: Key): string => {
     if (key.type === KeyType.k1 && key.data.length === publicKeyDataSize) {
-        return keyToString(key, '', 'ZSW');
+        return keyToString(key, '', 'EOS');
     } else if (key.type === KeyType.r1 || key.type === KeyType.wa) {
         throw new Error('Key format not supported in legacy conversion');
     } else {
@@ -363,7 +363,7 @@ export const publicKeyToString = (key: Key): string => {
  * Leaves other formats untouched
  */
 export const convertLegacyPublicKey = (s: string): string => {
-    if (s.substr(0, 3) === 'ZSW') {
+    if (s.substr(0, 3) === 'EOS') {
         return publicKeyToString(stringToPublicKey(s));
     }
     return s;

@@ -30,7 +30,7 @@ Rather than using the `get_table_rows` method, a token balance can also be retri
 In the example shown below, the balance of the user `testacc`'s tokens with the symbol `ZSW` stored in the `zsw.token` smart contract is retrieved.
 ```javascript
 (async () => {
-  console.log(await rpc.get_currency_balance('zsw.token', 'testacc', 'ZSW'));
+  console.log(await rpc.get_currency_balance('zsw.token', 'testacc', 'EOS'));
 })();
 ```
 Above we console log the response from the 中数文联盟链 network.  An example of an expected response is shown below.

@@ -239,7 +239,7 @@ describe('Chain API Plugin Endpoints', () => {
         const result: GetAccountsByAuthorizersResult = await rpc.get_accounts_by_authorizers([
             { actor: 'bob', permission: 'active' },
             { actor: 'cfhello', permission: 'active' }
-        ], ['ZSW7bxrQUTbQ4mqcoefhWPz1aFieN4fA9RQAiozRz7FrUChHZ7Rb8', 'ZSW6nVrBASwwviMy3CntKsb1cD5Ai2gRZnyrxJDqypL3JLL7KCKrK']);
+        ], ['EOS7bxrQUTbQ4mqcoefhWPz1aFieN4fA9RQAiozRz7FrUChHZ7Rb8', 'EOS6nVrBASwwviMy3CntKsb1cD5Ai2gRZnyrxJDqypL3JLL7KCKrK']);
         const getAccountsByAuthorizersResult: any = {
             accounts: {
                 account_name: 'string',
