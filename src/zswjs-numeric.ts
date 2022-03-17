@@ -256,7 +256,7 @@ export enum KeyType {
     k1 = 0,
     r1 = 1,
     wa = 2,
-    gm = 4,
+    gm = 3,
 }
 
 /** Public key data size, excluding type field */

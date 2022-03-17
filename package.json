@@ -1,6 +1,6 @@
 {
   "name": "zswjs",
-  "version": "1.3.2",
+  "version": "1.3.4",
   "description": "中数文API",
   "main": "dist/index.js",
   "scripts": {
