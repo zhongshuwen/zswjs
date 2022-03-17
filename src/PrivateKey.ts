@@ -7,6 +7,8 @@ import {
     stringToPrivateKey,
 } from './zswjs-numeric';
 import { constructElliptic, PublicKey, Signature } from './zswjs-key-conversions';
+import { doSignature } from './smc/sm2';
+import { arrayToHex, hexToUint8Array } from './zswjs-serialize';
 
 /** Represents/stores a private key and provides easy conversion for use with `elliptic` lib */
 export class PrivateKey {
@@ -71,7 +73,21 @@ export class PrivateKey {
             !(sigData[1] & 0x80) && !(sigData[1] === 0 && !(sigData[2] & 0x80))
             && !(sigData[33] & 0x80) && !(sigData[33] === 0 && !(sigData[34] & 0x80));
         const constructSignature = (options: EC.SignOptions): Signature => {
+            if(this.getType()===KeyType.gm){
+                const pubKeyDataHex = arrayToHex(this.getPublicKey().getData());
+                const hexA = doSignature(data,arrayToHex(this.key.data),{der: true, hash: false});
+                //console.log(hexA);
+                const allData= (pubKeyDataHex+hexA+"000000000000000000000000000000000000").substring(0,105*2);
+
+                return new Signature({
+                    type: this.getType(),
+                    data: hexToUint8Array(allData),
+                }, constructElliptic(this.getType()))
+
+
+            }
             const ellipticPrivateKey = this.toElliptic();
+
             const ellipticSignature = ellipticPrivateKey.sign(data, options);
             return Signature.fromElliptic(ellipticSignature, this.getType(), this.ec, this.getPublicKey());
         };
