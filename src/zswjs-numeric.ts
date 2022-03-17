@@ -331,6 +331,8 @@ export const stringToPublicKey = (s: string): Key => {
         return stringToKey(s.substr(7), KeyType.r1, publicKeyDataSize, 'R1');
     } else if (s.substr(0, 7) === 'PUB_WA_') {
         return stringToKey(s.substr(7), KeyType.wa, 0, 'WA');
+    }else if (s.substr(0, 7) === 'PUB_GM_') {
+        return stringToKey(s.substr(7), KeyType.gm, 0, 'GM');
     } else {
         throw new Error('unrecognized public key format');
     }
