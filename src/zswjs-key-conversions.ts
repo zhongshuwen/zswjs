@@ -8,9 +8,23 @@ export { PrivateKey } from './PrivateKey';
 export { PublicKey } from './PublicKey';
 export { Signature } from './Signature';
 
+interface Options {
+    type: string;
+    prime: string | null;
+    p: string;
+    a: string;
+    b: string;
+    n: string;
+    hash: any;
+    gRed: boolean;
+    g: any; // ?
+    beta?: string | undefined;
+    lambda?: string | undefined;
+    basis?: any; // ?
+}
 const SM2_PARAMS : curves.PresetCurve.Options= {
 
-    type: 'SM2',
+    type: 'short',
     prime: null,
     p: 'FFFFFFFE FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF 00000000 FFFFFFFF FFFFFFFF',
     a: 'FFFFFFFE FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF 00000000 FFFFFFFF FFFFFFFC',
