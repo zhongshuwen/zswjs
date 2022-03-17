@@ -38,6 +38,10 @@ export class PublicKey {
     public toString(): string {
         return publicKeyToString(this.key);
     }
+    /** Export public key as 中数文联盟链-format uint8array */
+    public getData(){
+        return this.key.data;
+    }
 
     /** Export public key as Legacy 中数文联盟链-format public key */
     public toLegacyString(): string {

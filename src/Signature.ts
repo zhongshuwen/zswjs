@@ -1,5 +1,6 @@
 import { BNInput, ec as EC } from 'elliptic';
-import BN = require('bn.js');
+import {BigInteger} from 'jsbn';
+import {BN} from 'bn.js'
 
 import {
     Key,
@@ -8,6 +9,8 @@ import {
     stringToSignature,
 } from './zswjs-numeric';
 import { constructElliptic, PublicKey } from './zswjs-key-conversions';
+import { encodeDer } from './ASN1';
+import { arrayToHex, hexToUint8Array } from './zswjs-serialize';
 
 /** Represents/stores a Signature and provides easy conversion for use with `elliptic` lib */
 export class Signature {
@@ -23,9 +26,31 @@ export class Signature {
     }
 
     /** Instantiate Signature from an `elliptic`-format Signature */
-    public static fromElliptic(ellipticSig: EC.Signature, keyType: KeyType, ec?: EC): Signature {
+    public static fromElliptic(ellipticSig: EC.Signature, keyType: KeyType, ec?: EC, pubKey?: PublicKey): Signature {
+
         const r = ellipticSig.r.toArray('be', 32);
         const s = ellipticSig.s.toArray('be', 32);
+        if(keyType===KeyType.gm){
+            if(!pubKey){
+                throw new Error("fromElliptic requires pub key for gm type!")
+            }
+            if (!ec) {
+                ec = constructElliptic(keyType);
+            }
+            const pubDataHex  =arrayToHex(pubKey.getData());
+            const rStr = ellipticSig.r.toString();
+            const sStr = ellipticSig.s.toString();
+            const encDerPubData1 = encodeDer(
+                new BigInteger(rStr),
+                new BigInteger(sStr),
+                );
+            const allData = (pubDataHex+encDerPubData1+"000000000000000000000000000000000000000000000000").substring(0,105*2);
+            return new Signature({
+                type: keyType,
+                data: hexToUint8Array(allData),
+            }, ec);
+        }
+
         let zswchainRecoveryParam;
         if (keyType === KeyType.k1 || keyType === KeyType.r1) {
             zswchainRecoveryParam = ellipticSig.recoveryParam + 27;

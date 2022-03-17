@@ -73,13 +73,15 @@ export class PrivateKey {
         const constructSignature = (options: EC.SignOptions): Signature => {
             const ellipticPrivateKey = this.toElliptic();
             const ellipticSignature = ellipticPrivateKey.sign(data, options);
-            return Signature.fromElliptic(ellipticSignature, this.getType(), this.ec);
+            return Signature.fromElliptic(ellipticSignature, this.getType(), this.ec, this.getPublicKey());
         };
 
         if (this.key.type === KeyType.k1) {
             do {
                 signature = constructSignature({canonical: true, pers: [++tries]});
             } while (!isCanonical(signature.toBinary()));
+        } else if (this.key.type === KeyType.gm) {
+            signature = constructSignature({canonical: true});
         } else {
             signature = constructSignature({canonical: true});
         }

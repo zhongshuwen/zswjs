@@ -256,6 +256,7 @@ export enum KeyType {
     k1 = 0,
     r1 = 1,
     wa = 2,
+    gm = 4,
 }
 
 /** Public key data size, excluding type field */
@@ -354,6 +355,8 @@ export const publicKeyToString = (key: Key): string => {
         return keyToString(key, 'R1', 'PUB_R1_');
     } else if (key.type === KeyType.wa) {
         return keyToString(key, 'WA', 'PUB_WA_');
+    } else if (key.type === KeyType.gm) {
+        return keyToString(key, 'GM', 'PUB_GM_');
     } else {
         throw new Error('unrecognized public key format');
     }
@@ -385,6 +388,8 @@ export const stringToPrivateKey = (s: string): Key => {
         return stringToKey(s.substr(7), KeyType.r1, privateKeyDataSize, 'R1');
     } else if (s.substr(0, 7) === 'PVT_K1_') {
         return stringToKey(s.substr(7), KeyType.k1, privateKeyDataSize, 'K1');
+    } else if (s.substr(0, 7) === 'PVT_GM_') {
+        return stringToKey(s.substr(7), KeyType.gm, privateKeyDataSize, 'GM');
     } else {
         // todo: Verify checksum: sha256(sha256(key.data)).
         //       Not critical since a bad key will fail to produce a
@@ -434,6 +439,8 @@ export const privateKeyToString = (key: Key): string => {
         return keyToString(key, 'R1', 'PVT_R1_');
     } else if (key.type === KeyType.k1) {
         return keyToString(key, 'K1', 'PVT_K1_');
+    } else if (key.type === KeyType.gm) {
+        return keyToString(key, 'GM', 'PVT_GM_');
     } else {
         throw new Error('unrecognized private key format');
     }
@@ -450,6 +457,8 @@ export const stringToSignature = (s: string): Key => {
         return stringToKey(s.substr(7), KeyType.r1, signatureDataSize, 'R1');
     } else if (s.substr(0, 7) === 'SIG_WA_') {
         return stringToKey(s.substr(7), KeyType.wa, 0, 'WA');
+    } else if (s.substr(0, 7) === 'SIG_GM_') {
+        return stringToKey(s.substr(7), KeyType.gm, 105, 'GM');
     } else {
         throw new Error('unrecognized signature format');
     }
@@ -463,6 +472,8 @@ export const signatureToString = (signature: Key): string => {
         return keyToString(signature, 'R1', 'SIG_R1_');
     } else if (signature.type === KeyType.wa) {
         return keyToString(signature, 'WA', 'SIG_WA_');
+    } else if (signature.type === KeyType.gm) {
+        return keyToString(signature, 'GM', 'SIG_GM_');
     } else {
         throw new Error('unrecognized signature format');
     }

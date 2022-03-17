@@ -4,7 +4,7 @@ about: Create a report to help us improve
 
 ---
 
-**Version of ZSWJS**
+**Version of zswjs**
 _which version of zswjs exhibits the issue_
 
 **Describe the bug**
